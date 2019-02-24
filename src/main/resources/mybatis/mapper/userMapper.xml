@@ -5,11 +5,21 @@
 <mapper namespace="com.spring.mybatis.dao.UserDao">
 
     <select id="selectUserId" resultType="com.spring.mybatis.bean.User">
-        SELECT * from user_info WHERE id = #{id}
+        SELECT * from user WHERE id = #{id}
     </select>
 
-    <update id="updateUserById" parameterType="com.spring.mybatis.bean.User">
+    <select id="selectUsers" resultType="com.spring.mybatis.bean.User">
+    select * from user
+    </select>
+
+    <insert id="insertUser" parameterType="com.spring.mybatis.bean.User">
+        insert into user(id,username) values(#{id},#{username})
+    </insert>
+
+
+
+    <!--<update id="updateUserById" parameterType="com.spring.mybatis.bean.User">
         UPDATE user_info SET mark=#{mark},phone=#{phone} WHERE id = #{id}
     </update>
-
+-->
 </mapper>

@@ -6,9 +6,9 @@ import com.spring.mybatis.mapper.ConfigMapper;
 import com.spring.mybatis.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Author: yhy
@@ -34,19 +34,41 @@ public class UserController {
     }
 
     @RequestMapping("/cha/{id}")
-    public User selectUserId(@PathVariable("id") Integer id) {
+    public String selectUserId(@PathVariable("id") Integer id) {
         User user = userService.selectUserId(id);
-        return user;
+        if (user==null){
+            return "未查询到数据";
+        }
+        return user.toString();
     }
-    @RequestMapping("/update")
+
+    @RequestMapping("/findAll")
+    public String selectUsers() {
+        List<User> users = userService.selectUsers();
+        if (users==null){
+            return "未查询到数据";
+        }
+        return users.toString();
+    }
+
+    //用户插入数据
+    @RequestMapping(value = "/insertUser", method = RequestMethod.POST)
+    public String insertUser(@RequestParam("id") int id,
+                             @RequestParam("username") String username) {
+        User user=new User();
+        user.setUsername(username);
+        user.setId(id);
+        int status = userService.insertUser(user);
+        return "插入成功";
+    }
+    /*@RequestMapping("/update")
     public User updateUserId() {
         User user = new User();
         user.setId(15);
-        user.setMark("画画");
-        user.setPhone("10086758");
+        user.setUsername("zhangsan");
         User user1 = userService.updateUserId(user);
         return user1;
-    }
+    }*/
 
     public static void main(String[] args) {
         ConcurrentMapCache mapCache = new ConcurrentMapCache("redis");

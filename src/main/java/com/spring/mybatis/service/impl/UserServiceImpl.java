@@ -8,6 +8,8 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 /**
  * @Author: yhy
@@ -27,12 +29,25 @@ public class UserServiceImpl implements UserService{
         User user =userDao.selectUserId(id);
         return user;
     }
-    @CachePut(value = "user")
+
+    @Override
+    public List<User> selectUsers(){
+        List<User> users =userDao.selectUsers();
+        return users;
+    }
+
+    @Override
+    public int insertUser(User user){
+        int status =userDao.insertUser(user);
+        return status;
+    }
+
+   /* @CachePut(value = "user")
     @Override
     public User updateUserId(User user) {
         System.out.println("------查询---"+user.toString()+"--");
         userDao.updateUserById(user);
         return user;
-    }
+    }*/
 
 }

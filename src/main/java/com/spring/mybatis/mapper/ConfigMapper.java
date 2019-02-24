@@ -1,8 +1,11 @@
 package com.spring.mybatis.mapper;
 
 import com.spring.mybatis.bean.User;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * @Author: yhy
@@ -13,7 +16,12 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface ConfigMapper {
 
-    @Select("select * from user_info where id = #{id}")
+    @Select("select * from user where id = #{id}")
     public User selectUserById(Integer id);
+    @Select("select * from user")
+    public List<User> selectUsers();
+    @Insert("insert into user  values(#{id},#{username})")
+    public String insertUser(User user);
+
 
 }
